@@ -1,0 +1,16 @@
+#!/bin/ash
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+. /etc/profile
+
+rm -rf /tmp/ledfifo
+mkfifo /tmp/ledfifo
+rm -rf /tmp/msgfifo
+mkfifo /tmp/msgfifo
+
+$NEXFI_ROOT/script-files/led/nexfi-led.sh 1 > /dev/null 2>&1 &
+
+# configuration position
+#
+
