@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. /etc/profile
+
 RM="/bin/rm"
 KILLALL="/usr/bin/killall"
 SLEEP="/bin/sleep"

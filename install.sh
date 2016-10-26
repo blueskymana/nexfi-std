@@ -34,7 +34,6 @@ uci set system.@button[-1].max=6
 uci -c /etc/config commit system
 
 # button configuration.
-cp script/BTN_0 /etc/rc.button
 uci add system button
 uci set system.@button[-1].button=BTN_0
 uci set system.@button[-1].action=released
