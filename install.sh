@@ -33,6 +33,16 @@ uci set system.@button[-1].min=1
 uci set system.@button[-1].max=6
 uci -c /etc/config commit system
 
+# button configuration.
+cp script/BTN_0 /etc/rc.button
+uci add system button
+uci set system.@button[-1].button=BTN_0
+uci set system.@button[-1].action=released
+uci set system.@button[-1].handler="flock -xn /tmp/channel-sw.lcok -c \"$NEXFI_ROOT/script-files/channel/channel-sw.sh\""
+uci set system.@button[-1].min=0
+uci set system.@button[-1].max=1
+uci -c /etc/config commit system
+
 # upgrade configuration.
 cp $NEXFI_ROOT/config/conf_version /root
 cp $NEXFI_ROOT/config/nexfi_version /root
