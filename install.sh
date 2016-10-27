@@ -71,9 +71,9 @@ config adhoc
     option    dns       '202.96.209.133'
 " > /tmp/netconfig
 
-if [ -f $NEXFI_ROOT/config/netconfig ];
+if [ -f /etc/config/netconfig ];
 then
-    echo "$(uci -c $NEXFI_ROOT/config show netconfig.@adhoc[0])" > /tmp/.netconfig
+    echo "$(uci show netconfig.@adhoc[0])" > /tmp/.netconfig
     while read LINE
     do
 	CFG_OPT=$(echo $LINE | awk -F '.' '{print $3}' | awk -F '=' '{print $1}')
@@ -82,15 +82,14 @@ then
 	    CFG_OPT_VAL=$(uci -c /tmp/ get netconfig.@adhoc[0].$CFG_OPT)
 	    if [ ! -z "$CFG_OPT_VAL" ];
 	    then
-		CFG_OPT_VAL=$(uci -c $NEXFI_ROOT/config get netconfig.@adhoc[0].$CFG_OPT)
+		CFG_OPT_VAL=$(uci get netconfig.@adhoc[0].$CFG_OPT)
 		uci -c /tmp/ set netconfig.@adhoc[0].$CFG_OPT=$CFG_OPT_VAL
 		uci -c /tmp/ commit netconfig
 	    fi
 	fi
     done < /tmp/.netconfig
 fi
-mkdir -p $NEXFI_ROOT/config/
-cp /tmp/netconfig $NEXFI_ROOT/config/
+mv /tmp/netconfig /etc/config/
 
 # start nexfi-std
 $NEXFI_ROOT/script-files/network/network.sh

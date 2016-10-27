@@ -4,11 +4,9 @@ MV="/bin/mv"
 
 . /etc/profile
 
-CFG_PATH="$NEXFI_ROOT/config"
-
-MESHID=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].meshid)
-IPADDR=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].ipaddr)
-DNS=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].dns)
+MESHID=$(uci get netconfig.@adhoc[0].meshid)
+IPADDR=$(uci get netconfig.@adhoc[0].ipaddr)
+DNS=$(uci get netconfig.@adhoc[0].dns)
 
 # create network configuration
 echo "# configuration for /etc/config/network
@@ -34,7 +32,7 @@ config interface 'batnet'
     option proto 'batadv'
     option mesh 'bat0'
     
-" > $CFG_PATH/network
+" > /tmp/network
 
 
 # create wireless configuration  
@@ -57,7 +55,7 @@ config wifi-iface
     option ifname 'adhoc0'
     option network 'batnet'
 
-" > $CFG_PATH/wireless
+" > /tmp/wireless
 
-$MV $CFG_PATH/network /etc/config/
-$MV $CFG_PATH/wireless /etc/config/
+$MV /tmp/network /etc/config/
+$MV /tmp/wireless /etc/config/

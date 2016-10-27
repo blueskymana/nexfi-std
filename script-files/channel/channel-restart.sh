@@ -10,11 +10,9 @@ IW="/usr/sbin/iw"
 BRCTL="/usr/sbin/brctl"
 BATCTL="/usr/sbin/batctl"
 
-CFG_PATH="$NEXFI_ROOT/config"
-
-BSSID=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].bssid)
-MESHID=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].meshid)
-FREQ=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].freq)
+BSSID=$(uci get netconfig.@adhoc[0].bssid)
+MESHID=$(uci get netconfig.@adhoc[0].meshid)
+FREQ=$(uci get netconfig.@adhoc[0].freq)
 
 $IFCONFIG br-lan down
 $IFCONFIG adhoc0 down

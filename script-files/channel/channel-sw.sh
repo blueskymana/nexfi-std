@@ -10,11 +10,9 @@ IW="/usr/sbin/iw"
 BRCTL="/usr/sbin/brctl"
 BATCTL="/usr/sbin/batctl"
 
-CFG_PATH="$NEXFI_ROOT/config"
-
-BSSID=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].bssid)
-MESHID=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].meshid)
-FREQ=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].freq)
+BSSID=$(uci get netconfig.@adhoc[0].bssid)
+MESHID=$(uci get netconfig.@adhoc[0].meshid)
+FREQ=$(uci get netconfig.@adhoc[0].freq)
 
 # set channel
 CHANNEL_FREQ="2447"
@@ -38,8 +36,8 @@ then
     CHANNEL_FREQ="2422"
 fi
 
-uci -c $CFG_PATH set netconfig.@adhoc[-1].freq=$CHANNEL_FREQ
-uci -c $CFG_PATH commit netconfig
+uci set netconfig.@adhoc[0].freq=$CHANNEL_FREQ
+uci commit netconfig
 
 $IFCONFIG br-lan down
 $IFCONFIG adhoc0 down

@@ -8,8 +8,6 @@ BATCTL="/usr/sbin/batctl"
 
 . /etc/profile
 
-CFG_PATH="$NEXFI_ROOT/config"
-
 $SLEEP 5
 
 adhoc_mac=$(ifconfig adhoc0 | head -n 1 | awk -F ' ' '{print $5}')
@@ -25,9 +23,9 @@ br_mac_head="1E"
 MAC=$(ifconfig eth0 | head -n 1 | awk -F ' ' '{print $5}')
 BRMAC=$br_mac_head:$mac_tail
 
-BSSID=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].bssid)
-MESHID=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].meshid)
-FREQ=$(uci -c $CFG_PATH get netconfig.@adhoc[-1].freq)
+BSSID=$(uci get netconfig.@adhoc[0].bssid)
+MESHID=$(uci get netconfig.@adhoc[0].meshid)
+FREQ=$(uci get netconfig.@adhoc[0].freq)
 
 
 $IFCONFIG br-lan down
