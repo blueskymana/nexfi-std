@@ -14,8 +14,10 @@ rm -f /root/conf_version
 rm -f /root/nexfi_version
 
 # delete system button config
-uci delete system.@button[-1]
+uci delete system.@button[0]
+uci delete system.@button[0]
 uci commit system
+/etc/init.d/system reload
 
 # delete button event support
 rm -rf /etc/rc.button/BTN_0

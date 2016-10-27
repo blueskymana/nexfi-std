@@ -27,7 +27,7 @@ cp $NEXFI_ROOT/install-files/BTN_0 /etc/rc.button/
 
 # delete system button config
 uci delete system.@button[0]
-uci delete system.@button[1]
+uci delete system.@button[0]
 uci commit system
 
 uci add system button
@@ -46,9 +46,10 @@ uci set system.@button[-1].handler="flock -xn /tmp/channel-sw.lcok -c \"$NEXFI_R
 uci set system.@button[-1].min=0
 uci set system.@button[-1].max=1
 uci -c /etc/config commit system
+/etc/init.d/system reload
 
 # upgrade configuration.
-[ ! -f $NEXFI_ROOT/config/conf_version ] && cp $NEXFI_ROOT/config/conf_version /root/
+[ ! -f /root/conf_version ] && cp $NEXFI_ROOT/config/conf_version /root/
 cp $NEXFI_ROOT/config/nexfi_version /root/
 
 # crontabs configuration.
@@ -94,7 +95,6 @@ cp /tmp/netconfig $NEXFI_ROOT/config/
 # start nexfi-std
 $NEXFI_ROOT/script-files/network/network.sh
 /etc/init.d/network restart
-sleep 2
 $NEXFI_ROOT/script-files/network/nexfi.sh
 /etc/rc.local
 
