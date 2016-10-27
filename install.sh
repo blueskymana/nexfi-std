@@ -5,7 +5,7 @@
 # add environment variable
 sed -i '/NEXFI_ROOT/d' /etc/profile
 echo "export NEXFI_ROOT=$(pwd)" >> /etc/profile
-. /etc/profile
+. /etc/profile > /dev/null 2>&1
 
 # disable dns and firewall.
 /etc/init.d/firewall disable
@@ -28,12 +28,12 @@ cp $NEXFI_ROOT/install-files/BTN_0 /etc/rc.button/
 # delete system button config
 uci delete system.@button[0]
 uci delete system.@button[0]
-uci commit system
+uci commit system > /dev/null 2>&1
 
 uci add system button
 uci set system.@button[-1].button=BTN_0
 uci set system.@button[-1].action=released
-uci set system.@button[-1].handler="flock -xn /tmp/nexfi-upgrade.lock -c \"$NEXFI_ROOT/script-files/upgrade/nexfi-upgrade.sh\""
+uci set system.@button[-1].handler="flock -xn /tmp/nexfi-upgrade.lock -c \"opkg update && opkg upgrade nexfi-std\""
 uci set system.@button[-1].min=1
 uci set system.@button[-1].max=6
 uci -c /etc/config commit system
@@ -92,6 +92,7 @@ fi
 mv /tmp/netconfig /etc/config/
 
 # start nexfi-std
+echo "nameserver 202.96.209.133" > /etc/resolv.conf
 $NEXFI_ROOT/script-files/network/network.sh
 /etc/init.d/network restart
 $NEXFI_ROOT/script-files/network/nexfi.sh
