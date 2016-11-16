@@ -84,7 +84,7 @@ net_led_fsm_init()
 
 net_led_fsm()
 {
-    nexhop=$(batctl n | sed '1,2 d' | grep -v "range")
+    nexhop=$(batctl o | sed '1,2 d' | grep -v "range")
 
     if [ -z "$nexhop" ]
     then
