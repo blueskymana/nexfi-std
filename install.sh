@@ -58,9 +58,6 @@ echo "0 */12 * * * flock -xn /tmp/upgrade.lock -c \"$NEXFI_ROOT/script-files/upg
 # sysupgrade configuration. 
 cp $NEXFI_ROOT/install-files/sysupgrade.conf /etc/
 
-# override the kmod.
-cp $NEXFI_ROOT/install-files/batman-adv /lib/modules/3.18.36/batman-adv.ko
-
 # update the configuration
 echo "
 config adhoc
