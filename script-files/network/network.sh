@@ -57,5 +57,13 @@ config wifi-iface
 
 " > /tmp/wireless
 
+uci set wireless@wifi-iface[0].device=radio0
+uci set wireless@wifi-iface[0].encryption=none
+uci set wireless@wifi-iface[0].ssid='$MESHID'
+uci set wireless@wifi-iface[0].mode=adhoc
+uci set wireless@wifi-iface[0].ifname=adhoc0
+uci set wireless@wifi-iface[0].network=batnet
+uci commit system
+
 $MV /tmp/network /etc/config/
-$MV /tmp/wireless /etc/config/
+#$MV /tmp/wireless /etc/config/
